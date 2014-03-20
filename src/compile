@@ -1,0 +1,8 @@
+#!/bin/bash
+
+g++ -Wall main.cpp Text.cpp Indexer.cpp -o quickread
+
+result=$?
+echo "== gcc returned with status $result =="
+
+exit $result

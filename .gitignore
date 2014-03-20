@@ -1,0 +1,15 @@
+## vim files ##
+
+## Mac files ##
+.*DS_Store
+
+
+## project specific files ##
+*.diff
+test*
+*.txt
+
+color.cpp
+*.exe
+quickread*
+
