@@ -1,5 +1,6 @@
 #include <iostream>
 #include <unistd.h> // for sleep()
+#include <time.h> // for nanosleep()
 #include "Text.h"
 
 using namespace std;
@@ -61,7 +62,7 @@ void Text::printColor(char c)
    cout << "\033[1;31m" << c << "\033[0m";
 }
 
-void Text::printWord(string word, int sleepTime)
+void Text::printWord(string word)
 {
     clearScreen();
 
@@ -83,14 +84,13 @@ void Text::printWord(string word, int sleepTime)
 
     // print second half of box
 
-    sleep(sleepTime);
 
 }
 
 
 int Text::read(int wpm, int startPlace)
 {
-    int sleepCount = 60/wpm; // in seconds
+    double sleepCount = 60.0/wpm; // in seconds
 
     // clear the screen
     clearScreen();
@@ -98,6 +98,10 @@ int Text::read(int wpm, int startPlace)
     cout << "You will soon be reading " << m_title << endl;
 
 
+    sleepCount *= 1000000000; // in nanoseconds
+    timespec req;
+    req.tv_sec = 0;
+    req.tv_nsec = sleepCount; // in nanoseconds
 
 
     int totalWords = m_words.size();
@@ -107,7 +111,8 @@ int Text::read(int wpm, int startPlace)
 
     for (m_bookmark=startPlace; m_bookmark < totalWords; m_bookmark++)
     {
-        printWord(m_words[m_bookmark], sleepCount);
+        printWord(m_words[m_bookmark]);
+        nanosleep(&req, NULL); // sleep for fraction of a second
     }
 
 

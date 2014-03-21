@@ -27,7 +27,7 @@ class Text
 
   private:
     void printColor(char c);
-    void printWord(std::string word, int sleepTime);
+    void printWord(std::string word);
     void clearScreen();
 
     // Member variables
