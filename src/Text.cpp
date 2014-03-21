@@ -45,9 +45,6 @@ Text::Text(string title, string words)
         }
     }
 
-    //cout << "size is " << m_words.size() << endl;
-    //cout << "capacity is " << m_words.capacity() << endl;
-
     cout << "Your text has been added successfully." << endl;
 }
 
@@ -71,11 +68,14 @@ void Text::printWord(string word)
     // get to center of screen
     for (int k=0; k < 6; k++) // move down
         cout << endl;
-    
+
     for (int k=0; k < INDENT; k++) // move right
         cout << ' ';
-    
-    // print 1st half of box
+
+    //////////////////////////////////
+    // print first half of box
+    //////////////////////////////////
+
     for (int k=0; k < INDENT+BOXSIZE; k++)
         cout << '*';
     cout << endl;
@@ -83,7 +83,7 @@ void Text::printWord(string word)
     // start the line
     for (int k=0; k < INDENT; k++) // move right
         cout << ' ';
-    
+
     cout << "* ";
 
     // calculate center of word
@@ -98,7 +98,10 @@ void Text::printWord(string word)
             cout << word[k];
     }
 
+
+    //////////////////////////////////
     // print second half of box
+    //////////////////////////////////
 
     // complete the line
     for (int k=0; k < BOXSIZE - (signed)word.size(); k++) // shift right
@@ -108,13 +111,11 @@ void Text::printWord(string word)
 
     for (int k=0; k < INDENT; k++) // move right
         cout << ' ';
-    
+
     // print 1st half of box
     for (int k=0; k < INDENT+BOXSIZE; k++)
         cout << '*';
     cout << endl;
-
-
 }
 
 
@@ -146,6 +147,5 @@ int Text::read(int wpm, int startPlace)
     }
 
 
-    
     return 0;
 }
