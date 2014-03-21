@@ -64,15 +64,32 @@ void Text::printColor(char c)
 
 void Text::printWord(string word)
 {
+    const int INDENT = 6;
+    const int BOXSIZE = 16;
     clearScreen();
 
     // get to center of screen
+    for (int k=0; k < 6; k++) // move down
+        cout << endl;
+    
+    for (int k=0; k < INDENT; k++) // move right
+        cout << ' ';
     
     // print 1st half of box
+    for (int k=0; k < INDENT+BOXSIZE; k++)
+        cout << '*';
+    cout << endl;
+
+    // start the line
+    for (int k=0; k < INDENT; k++) // move right
+        cout << ' ';
+    
+    cout << "* ";
 
     // calculate center of word
-    int focalPoint = word.size()/2 + 1; // good enough for now
+    int focalPoint = word.size()/2; // good enough for now
 
+    // printChars
     for (int k=0; k < word.size(); k++)
     {
         if (k == focalPoint)
@@ -80,9 +97,22 @@ void Text::printWord(string word)
         else
             cout << word[k];
     }
-    cout << endl;
 
     // print second half of box
+
+    // complete the line
+    for (int k=0; k < BOXSIZE - (signed)word.size(); k++) // shift right
+        cout << ' ';
+    cout << " *";
+    cout << endl;
+
+    for (int k=0; k < INDENT; k++) // move right
+        cout << ' ';
+    
+    // print 1st half of box
+    for (int k=0; k < INDENT+BOXSIZE; k++)
+        cout << '*';
+    cout << endl;
 
 
 }

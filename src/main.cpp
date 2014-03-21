@@ -19,7 +19,7 @@ int main()
         }
 
         myfile.close();
-        cout << fullText << endl;
+        //cout << fullText << endl;
     }
 
     else
@@ -31,7 +31,7 @@ int main()
 
     Text t1("Test file", fullText);
 
-    t1.read(300, 0);
+    t1.read(250, 0);
 
 
 
