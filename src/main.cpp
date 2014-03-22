@@ -31,6 +31,25 @@ int main()
 
     Text t1("Test file", fullText);
 
+    ifstream otherfile ("../Finnegans_Wake.txt");
+    if (otherfile.is_open())
+    {
+        while ( getline (otherfile,line) )
+        {
+            fullText += line;
+        }
+
+        otherfile.close();
+        //cout << fullText << endl;
+    }
+
+    else
+    {
+        cout << "Unable to open file"; 
+        // should exit here?
+    }
+    Text t2("Finnegans Wake", fullText);
+
     t1.read(250, 0);
 
 

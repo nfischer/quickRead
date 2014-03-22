@@ -1,0 +1,15 @@
+This app should color one character in a word.
+
+word length | character number
+1           | 1               
+2           | 2               
+3           | 2               
+4           | 2               
+5           | 2               
+6           | 3               
+7           | 3              
+8           |                
+9           | 4               
+10          |                
+11          | comprehension, o?,e,i
+            |                
