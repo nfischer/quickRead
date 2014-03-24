@@ -29,6 +29,10 @@ class Text
     void printColor(char c);
     void printWord(std::string word);
     void clearScreen();
+    bool isWordBreak(char c) // inlined
+    {
+        return c == ' ' || c == '\n' || c == '\t';
+    }
 
     // Member variables
     std::vector<std::string> m_words;

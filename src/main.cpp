@@ -4,6 +4,8 @@
 #include "Indexer.h"
 #include "Text.h" // perhaps remove in the future
 
+const int MY_WPM = 100;
+
 using namespace std;
 
 int main()
@@ -50,7 +52,7 @@ int main()
     }
     Text t2("Finnegans Wake", fullText);
 
-    t1.read(250, 0);
+    t1.read(MY_WPM, 0);
 
 
 

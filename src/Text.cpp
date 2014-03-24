@@ -12,29 +12,26 @@ Text::Text(string title, string words)
     cout << "Reading in your text..." << endl;
 
     // Read through to count number of spaces ( = number of words)
-    int numSpaces = 0;
+    int totalNumWords = 0;
     for (unsigned int k=0; k < words.size(); k++)
     {
-        if (words[k] == ' ')
-            numSpaces++;
+        if (isWordBreak(words[k]) )
+            totalNumWords++;
     }
 
-    m_words.reserve(numSpaces); // so we don't have to reallocate
+    m_words.reserve(totalNumWords); // so we don't have to reallocate
 
+    // start adding words
     int wordNum=0;
     m_words.push_back(""); // ensures size is appropriate
     int inputStringSize = words.size();
 
-    //cout << "size is " << m_words.size() << endl;
-    //cout << "capacity is " << m_words.capacity() << endl;
-
-
     for (unsigned int k=0; k < inputStringSize; k++)
     {
-        if (words[k] == ' ' && m_words[wordNum].size() == 0)
+        if (isWordBreak(words[k]) && m_words[wordNum].size() == 0)
             continue; // don't add blank words
 
-        else if (words[k] != ' ')
+        else if (! isWordBreak(words[k]) )
         {
             m_words[wordNum] += words[k];
         }
@@ -61,7 +58,7 @@ void Text::printColor(char c)
 
 void Text::printWord(string word)
 {
-    const int INDENT = 6;
+    const int CENTER = 26;
     const int BOXSIZE = 16;
     clearScreen();
 
@@ -69,25 +66,21 @@ void Text::printWord(string word)
     for (int k=0; k < 6; k++) // move down
         cout << endl;
 
-    for (int k=0; k < INDENT; k++) // move right
-        cout << ' ';
-
     //////////////////////////////////
-    // print first half of box
+    // print top arrow
     //////////////////////////////////
 
-    for (int k=0; k < INDENT+BOXSIZE; k++)
-        cout << '*';
-    cout << endl;
-
-    // start the line
-    for (int k=0; k < INDENT; k++) // move right
+    for (int k=0; k < CENTER; k++)
         cout << ' ';
+    cout << 'v' << endl; // arrow
 
-    cout << "* ";
 
     // calculate center of word
     int focalPoint = word.size()/2; // good enough for now
+
+    // move right
+    for (int k=0; k < CENTER - focalPoint; k++)
+        cout << ' ';
 
     // printChars
     for (int k=0; k < word.size(); k++)
@@ -97,25 +90,17 @@ void Text::printWord(string word)
         else
             cout << word[k];
     }
+    cout << endl;
 
 
     //////////////////////////////////
-    // print second half of box
+    // print bottom arrow
     //////////////////////////////////
 
-    // complete the line
-    for (int k=0; k < BOXSIZE - (signed)word.size(); k++) // shift right
-        cout << ' ';
-    cout << " *";
-    cout << endl;
-
-    for (int k=0; k < INDENT; k++) // move right
+    for (int k=0; k < CENTER; k++) // move right
         cout << ' ';
 
-    // print 1st half of box
-    for (int k=0; k < INDENT+BOXSIZE; k++)
-        cout << '*';
-    cout << endl;
+    cout << '^' << endl;
 }
 
 
