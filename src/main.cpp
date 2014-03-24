@@ -15,13 +15,12 @@ int main()
     ifstream myfile ("../TellTaleHeart.txt");
     if (myfile.is_open())
     {
-        while ( getline (myfile,line) )
+        while (getline(myfile,line) )
         {
-            fullText += line;
+            fullText += (line + '\n');
         }
 
         myfile.close();
-        //cout << fullText << endl;
     }
 
     else

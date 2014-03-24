@@ -43,6 +43,15 @@ Text::Text(string title, string words)
     }
 
     cout << "Your text has been added successfully." << endl;
+
+    //// DEBUG
+    //cout << "You first few words are:" << endl;
+    //for (int k=0; k < 6; k++)
+    //    cout << m_words[k] << endl;
+
+    //char waiter;
+    //cout << "Waiting: ";
+    //cin >> waiter;
 }
 
 
@@ -76,7 +85,12 @@ void Text::printWord(string word)
 
 
     // calculate center of word
-    int focalPoint = word.size()/2; // good enough for now
+    int focalPoint;
+    if (word.size() < 4)
+        focalPoint = word.size()/2;
+    else
+        focalPoint = (int)(word.size()/2) - 1;
+
 
     // move right
     for (int k=0; k < CENTER - focalPoint; k++)
