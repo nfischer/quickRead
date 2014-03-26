@@ -2,7 +2,7 @@
 #define INDEXER_INCLUDED
 
 #include <string>
-#include <set>
+#include <vector>
 
 class Text;
 
@@ -14,9 +14,10 @@ class Indexer
     Indexer(const std::string loadFile);
 
     Text* getNext();
+    void add(Text* t);
 
   private:
-    std::set<Text*> m_Texts;
+    std::vector<Text*> m_Texts;
 
 };
 

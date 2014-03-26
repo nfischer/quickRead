@@ -4,7 +4,7 @@
 #include "Indexer.h"
 #include "Text.h" // perhaps remove in the future
 
-const int MY_WPM = 100;
+const int MY_WPM = 500;
 
 using namespace std;
 
