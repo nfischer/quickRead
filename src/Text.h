@@ -26,9 +26,16 @@ class Text
 
 
   private:
+    // helper functions
     void printColor(char c);
-    void printWord(std::string word);
+    void printWord(std::string word, int yourWpm);
     void clearScreen();
+    void shiftRight(int indent)
+    {
+        for (int k=0; k < indent; k++) // move right
+            std::cout << ' ';
+    }
+
     bool isWordBreak(char c) // inlined
     {
         return c == ' ' || c == '\n' || c == '\t';

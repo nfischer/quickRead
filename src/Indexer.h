@@ -10,15 +10,17 @@ class Indexer
 {
   public:
     // Constructors
-    Indexer(); // default
+    Indexer();
     Indexer(const std::string loadFile);
 
-    Text* getNext();
-    void add(Text* t);
+    // Destructor
+    ~Indexer();
 
+    // Functions
+    Text* getNext();
+    void add(std::string title, std::string path);
   private:
     std::vector<Text*> m_Texts;
-
 };
 
 #endif//INDEXER_INCLUDED

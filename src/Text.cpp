@@ -1,7 +1,15 @@
 #include <iostream>
 #include <unistd.h> // for sleep()
 #include <time.h> // for nanosleep()
+//#include <conio.h> // for getch()
+#include <windows.h>
+
 #include "Text.h"
+
+const char BREAK_KEY    = 0x71; // == q
+const char INCR_SPD_KEY = 0x69; // == i
+const char DECR_SPD_KEY = 0x64; // == d
+const char KEY_OFFSET   = 0x20;
 
 using namespace std;
 
@@ -65,10 +73,10 @@ void Text::printColor(char c)
    cout << "\033[1;31m" << c << "\033[0m";
 }
 
-void Text::printWord(string word)
+void Text::printWord(string word, int yourWpm)
 {
     const int CENTER = 26;
-    const int BOXSIZE = 16;
+    const int SHIFTWIDTH = 46;
     clearScreen();
 
     // get to center of screen
@@ -79,8 +87,7 @@ void Text::printWord(string word)
     // print top arrow
     //////////////////////////////////
 
-    for (int k=0; k < CENTER; k++)
-        cout << ' ';
+    shiftRight(CENTER);
     cout << 'v' << endl; // arrow
 
 
@@ -92,11 +99,8 @@ void Text::printWord(string word)
         focalPoint = (int)(word.size()/2) - 1;
 
 
-    // move right
-    for (int k=0; k < CENTER - focalPoint; k++)
-        cout << ' ';
-
     // printChars
+    shiftRight(CENTER - focalPoint);
     for (int k=0; k < word.size(); k++)
     {
         if (k == focalPoint)
@@ -111,10 +115,30 @@ void Text::printWord(string word)
     // print bottom arrow
     //////////////////////////////////
 
-    for (int k=0; k < CENTER; k++) // move right
-        cout << ' ';
-
+    shiftRight(CENTER);
     cout << '^' << endl;
+
+
+    //////////////////////////////////
+    // print your wpm & keypress info
+    //////////////////////////////////
+
+    cout << "\n\n\n";
+
+    shiftRight(SHIFTWIDTH);
+    cout << "Your WPM: " << yourWpm << endl;
+
+    cout << endl; // add extra spacing
+
+    shiftRight(SHIFTWIDTH);
+    cout << "Press " << BREAK_KEY << " to quit" << endl;
+
+    shiftRight(SHIFTWIDTH);
+    cout << "Press " << INCR_SPD_KEY << " to increase WPM by 10" << endl;
+
+    shiftRight(SHIFTWIDTH);
+    cout << "Press " << DECR_SPD_KEY << " to decrease WPM by 10" << endl;
+    
 }
 
 
@@ -139,10 +163,43 @@ int Text::read(int wpm, int startPlace)
     if ( startPlace < 0)
         startPlace = 0;
 
+    //////////////////////////////////
+    // loop over each word
+    //////////////////////////////////
+
     for (m_bookmark=startPlace; m_bookmark < totalWords; m_bookmark++)
     {
-        printWord(m_words[m_bookmark]);
+        printWord(m_words[m_bookmark], wpm);
         nanosleep(&req, NULL); // sleep for fraction of a second
+
+
+        //////////////////////////////////
+        // Respond to key presses
+        //////////////////////////////////
+
+        if (GetAsyncKeyState(BREAK_KEY-KEY_OFFSET) & 0x8000)
+            break;
+        if (GetAsyncKeyState(INCR_SPD_KEY-KEY_OFFSET) & 0x8000)
+        {
+            wpm += 10;
+            
+            // update sleepCount
+            sleepCount = 60.0/wpm * 1000000000; // in nanoseconds
+            req.tv_nsec = sleepCount;
+        }
+        if (GetAsyncKeyState(DECR_SPD_KEY-KEY_OFFSET) & 0x8000)
+        {
+            wpm -= 10;
+            if (wpm <= 0)
+            {
+                wpm = 1; // minimum allowed value
+            }
+
+            // update sleepCount
+            sleepCount = 60.0/wpm * 1000000000; // in nanoseconds
+            req.tv_nsec = sleepCount;
+        }
+
     }
 
 

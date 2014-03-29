@@ -10,6 +10,13 @@ using namespace std;
 
 int main()
 {
+    // create index
+    Indexer index;
+
+    ///////////////////////////////
+    // Add first file
+    ///////////////////////////////
+
     string fullText;
     string line;
     ifstream myfile ("../TellTaleHeart.txt");
@@ -32,6 +39,11 @@ int main()
 
     Text t1("Test file", fullText);
 
+
+    ///////////////////////////////
+    // Add second file
+    ///////////////////////////////
+
     ifstream otherfile ("../Finnegans_Wake.txt");
     if (otherfile.is_open())
     {
@@ -39,7 +51,6 @@ int main()
         {
             fullText += line;
         }
-
         otherfile.close();
         //cout << fullText << endl;
     }
