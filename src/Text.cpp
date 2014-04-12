@@ -1,7 +1,6 @@
 #include <iostream>
 #include <unistd.h> // for sleep()
 #include <time.h> // for nanosleep()
-//#include <conio.h> // for getch()
 #include <windows.h>
 
 #include "Text.h"
@@ -153,6 +152,10 @@ int Text::read(int wpm, int startPlace)
 
 
     sleepCount *= 1000000000; // in nanoseconds
+    // Will overflow if sleepCount is less than 60
+    // DEBUG
+
+
     timespec req;
     req.tv_sec = 0;
     req.tv_nsec = sleepCount; // in nanoseconds

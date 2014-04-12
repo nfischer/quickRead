@@ -4,7 +4,7 @@
 #include "Indexer.h"
 #include "Text.h" // perhaps remove in the future
 
-const int MY_WPM = 500;
+const int MY_WPM = 200;
 
 using namespace std;
 
@@ -44,23 +44,27 @@ int main()
     // Add second file
     ///////////////////////////////
 
-    ifstream otherfile ("../Finnegans_Wake.txt");
-    if (otherfile.is_open())
-    {
-        while ( getline (otherfile,line) )
-        {
-            fullText += line;
-        }
-        otherfile.close();
-        //cout << fullText << endl;
-    }
+    //ifstream otherfile ("../Finnegans_Wake.txt");
+    //if (otherfile.is_open())
+    //{
+    //    while ( getline (otherfile,line) )
+    //    {
+    //        fullText += line;
+    //    }
+    //    otherfile.close();
+    //    //cout << fullText << endl;
+    //}
 
-    else
-    {
-        cout << "Unable to open file"; 
-        // should exit here?
-    }
-    Text t2("Finnegans Wake", fullText);
+    //else
+    //{
+    //    cout << "Unable to open file"; 
+    //    // should exit here?
+    //}
+    //Text t2("Finnegans Wake", fullText);
+
+
+    index.add("Finnegans Wake","../Finnegans_Wake.txt"); 
+
 
     t1.read(MY_WPM, 0);
 

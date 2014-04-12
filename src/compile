@@ -6,6 +6,6 @@ fi
 g++ main.cpp Text.cpp Indexer.cpp -o quickread
 
 result=$?
-echo "== gcc returned with status $result =="
+echo "== g++ returned with status $result =="
 
 exit $result
