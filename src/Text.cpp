@@ -143,7 +143,7 @@ void Text::printWord(string word, int yourWpm)
 
 int Text::read(int wpm, int startPlace)
 {
-    double sleepCount = 60.0/wpm; // in seconds
+    double sleepBase = 60.0/wpm; // in seconds
 
     // clear the screen
     clearScreen();
@@ -151,15 +151,11 @@ int Text::read(int wpm, int startPlace)
     cout << "You will soon be reading " << m_title << endl;
 
 
-    sleepCount *= 1000000000; // in nanoseconds
+
     // Will overflow if sleepCount is less than 60
     // DEBUG
 
-
     timespec req;
-    req.tv_sec = 0;
-    req.tv_nsec = sleepCount; // in nanoseconds
-
 
     int totalWords = m_words.size();
     startPlace = startPlace - 20;
@@ -172,7 +168,27 @@ int Text::read(int wpm, int startPlace)
 
     for (m_bookmark=startPlace; m_bookmark < totalWords; m_bookmark++)
     {
-        printWord(m_words[m_bookmark], wpm);
+        string word = m_words[m_bookmark];
+        printWord(word, wpm);
+
+        // modulate based on word length
+        int avgLength = 3;
+        double sleepCount = sleepBase;
+        double modulation = 0.03 * (int)(word.size() - avgLength);
+        sleepCount += modulation;
+        char lc;
+        if (word.size() >= 1)
+            lc = word[word.size()-1];
+        else
+            lc = '\0'; // harmless value
+
+        if (lc == '.' || lc == ':' || lc == ';' || lc == '?' || lc == '!')
+            sleepCount += 0.3;
+
+        // store this into timespec struct
+        req.tv_sec = (int) sleepCount;
+        sleepCount -= req.tv_sec; // remove integer part
+        req.tv_nsec = 1000000000 * sleepCount;
         nanosleep(&req, NULL); // sleep for fraction of a second
 
 
