@@ -39,7 +39,7 @@ void Indexer::add(string title, string path)
 {
     // std::vector<Text*> m_Texts;
     string fullText;
-    
+
     // Open file
     string line;
     ifstream myfile ("../TellTaleHeart.txt");
@@ -53,7 +53,7 @@ void Indexer::add(string title, string path)
     }
     else
     {
-        cerr << "Unable to open file"; 
+        cerr << "Unable to open file";
         exit(1); // should exit here?
     }
 

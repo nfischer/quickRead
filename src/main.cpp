@@ -32,7 +32,7 @@ int main()
 
     else
     {
-        cout << "Unable to open file"; 
+        cout << "Unable to open file";
         // should exit here?
     }
 
@@ -57,13 +57,13 @@ int main()
 
     //else
     //{
-    //    cout << "Unable to open file"; 
+    //    cout << "Unable to open file";
     //    // should exit here?
     //}
     //Text t2("Finnegans Wake", fullText);
 
 
-    index.add("Finnegans Wake","../Finnegans_Wake.txt"); 
+    index.add("Finnegans Wake","../Finnegans_Wake.txt");
 
 
     t1.read(MY_WPM, 0);

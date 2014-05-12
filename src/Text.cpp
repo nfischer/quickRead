@@ -137,7 +137,7 @@ void Text::printWord(string word, int yourWpm)
 
     shiftRight(SHIFTWIDTH);
     cout << "Press " << DECR_SPD_KEY << " to decrease WPM by 10" << endl;
-    
+
 }
 
 
@@ -201,7 +201,7 @@ int Text::read(int wpm, int startPlace)
         if (GetAsyncKeyState(INCR_SPD_KEY-KEY_OFFSET) & 0x8000)
         {
             wpm += 10;
-            
+
             // update sleepCount
             sleepCount = 60.0/wpm * 1000000000; // in nanoseconds
             req.tv_nsec = sleepCount;
