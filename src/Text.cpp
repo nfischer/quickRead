@@ -5,66 +5,66 @@
 
 #include "Text.h"
 
-const char BREAK_KEY    = 0x71; // == q
+const char BREAK_KEY  = 0x71; // == q
 const char INCR_SPD_KEY = 0x69; // == i
 const char DECR_SPD_KEY = 0x64; // == d
-const char KEY_OFFSET   = 0x20;
+const char KEY_OFFSET = 0x20;
 
 using namespace std;
 
 Text::Text(string title, string words)
 {
-    m_title = title;
+  m_title = title;
 
-    cout << "Reading in your text..." << endl;
+  cout << "Reading in your text..." << endl;
 
-    // Read through to count number of spaces ( = number of words)
-    int totalNumWords = 0;
-    for (unsigned int k=0; k < words.size(); k++)
+  // Read through to count number of spaces ( = number of words)
+  int totalNumWords = 0;
+  for (unsigned int k=0; k < words.size(); k++)
+  {
+    if (isWordBreak(words[k]) )
+      totalNumWords++;
+  }
+
+  m_words.reserve(totalNumWords); // so we don't have to reallocate
+
+  // start adding words
+  int wordNum=0;
+  m_words.push_back(""); // ensures size is appropriate
+  int inputStringSize = words.size();
+
+  for (unsigned int k=0; k < inputStringSize; k++)
+  {
+    if (isWordBreak(words[k]) && m_words[wordNum].size() == 0)
+      continue; // don't add blank words
+
+    else if (! isWordBreak(words[k]) )
     {
-        if (isWordBreak(words[k]) )
-            totalNumWords++;
+      m_words[wordNum] += words[k];
     }
-
-    m_words.reserve(totalNumWords); // so we don't have to reallocate
-
-    // start adding words
-    int wordNum=0;
-    m_words.push_back(""); // ensures size is appropriate
-    int inputStringSize = words.size();
-
-    for (unsigned int k=0; k < inputStringSize; k++)
+    else
     {
-        if (isWordBreak(words[k]) && m_words[wordNum].size() == 0)
-            continue; // don't add blank words
-
-        else if (! isWordBreak(words[k]) )
-        {
-            m_words[wordNum] += words[k];
-        }
-        else
-        {
-            wordNum++;
-            m_words.push_back(""); // increases size of vector
-        }
+      wordNum++;
+      m_words.push_back(""); // increases size of vector
     }
+  }
 
-    cout << "Your text has been added successfully." << endl;
+  cout << "Your text has been added successfully." << endl;
 
-    //// DEBUG
-    //cout << "You first few words are:" << endl;
-    //for (int k=0; k < 6; k++)
-    //    cout << m_words[k] << endl;
+  //// DEBUG
+  //cout << "You first few words are:" << endl;
+  //for (int k=0; k < 6; k++)
+  //    cout << m_words[k] << endl;
 
-    //char waiter;
-    //cout << "Waiting: ";
-    //cin >> waiter;
+  //char waiter;
+  //cout << "Waiting: ";
+  //cin >> waiter;
 }
 
 
 void Text::clearScreen()
 {
-    cout << "\033[2J\033[1;1H";
+  cout << "\033[2J\033[1;1H";
 }
 
 void Text::printColor(char c)
@@ -74,153 +74,153 @@ void Text::printColor(char c)
 
 void Text::printWord(string word, int yourWpm)
 {
-    const int CENTER = 26;
-    const int SHIFTWIDTH = 46;
-    clearScreen();
+  const int CENTER = 26;
+  const int SHIFTWIDTH = 46;
+  clearScreen();
 
-    // get to center of screen
-    for (int k=0; k < 6; k++) // move down
-        cout << endl;
-
-    //////////////////////////////////
-    // print top arrow
-    //////////////////////////////////
-
-    shiftRight(CENTER);
-    cout << 'v' << endl; // arrow
-
-
-    // calculate center of word
-    int focalPoint;
-    if (word.size() < 4)
-        focalPoint = word.size()/2;
-    else
-        focalPoint = (int)(word.size()/2) - 1;
-
-
-    // printChars
-    shiftRight(CENTER - focalPoint);
-    for (int k=0; k < word.size(); k++)
-    {
-        if (k == focalPoint)
-            printColor(word[k]);
-        else
-            cout << word[k];
-    }
+  // get to center of screen
+  for (int k=0; k < 6; k++) // move down
     cout << endl;
 
+  //////////////////////////////////
+  // print top arrow
+  //////////////////////////////////
 
-    //////////////////////////////////
-    // print bottom arrow
-    //////////////////////////////////
-
-    shiftRight(CENTER);
-    cout << '^' << endl;
+  shiftRight(CENTER);
+  cout << 'v' << endl; // arrow
 
 
-    //////////////////////////////////
-    // print your wpm & keypress info
-    //////////////////////////////////
+  // calculate center of word
+  int focalPoint;
+  if (word.size() < 4)
+    focalPoint = word.size()/2;
+  else
+    focalPoint = (int)(word.size()/2) - 1;
 
-    cout << "\n\n\n";
 
-    shiftRight(SHIFTWIDTH);
-    cout << "Your WPM: " << yourWpm << endl;
+  // printChars
+  shiftRight(CENTER - focalPoint);
+  for (int k=0; k < word.size(); k++)
+  {
+    if (k == focalPoint)
+      printColor(word[k]);
+    else
+      cout << word[k];
+  }
+  cout << endl;
 
-    cout << endl; // add extra spacing
 
-    shiftRight(SHIFTWIDTH);
-    cout << "Press " << BREAK_KEY << " to quit" << endl;
+  //////////////////////////////////
+  // print bottom arrow
+  //////////////////////////////////
 
-    shiftRight(SHIFTWIDTH);
-    cout << "Press " << INCR_SPD_KEY << " to increase WPM by 10" << endl;
+  shiftRight(CENTER);
+  cout << '^' << endl;
 
-    shiftRight(SHIFTWIDTH);
-    cout << "Press " << DECR_SPD_KEY << " to decrease WPM by 10" << endl;
+
+  //////////////////////////////////
+  // print your wpm & keypress info
+  //////////////////////////////////
+
+  cout << "\n\n\n";
+
+  shiftRight(SHIFTWIDTH);
+  cout << "Your WPM: " << yourWpm << endl;
+
+  cout << endl; // add extra spacing
+
+  shiftRight(SHIFTWIDTH);
+  cout << "Press " << BREAK_KEY << " to quit" << endl;
+
+  shiftRight(SHIFTWIDTH);
+  cout << "Press " << INCR_SPD_KEY << " to increase WPM by 10" << endl;
+
+  shiftRight(SHIFTWIDTH);
+  cout << "Press " << DECR_SPD_KEY << " to decrease WPM by 10" << endl;
 
 }
 
 
 int Text::read(int wpm, int startPlace)
 {
-    double sleepBase = 60.0/wpm; // in seconds
+  double sleepBase = 60.0/wpm; // in seconds
 
-    // clear the screen
-    clearScreen();
+  // clear the screen
+  clearScreen();
 
-    cout << "You will soon be reading " << m_title << endl;
+  cout << "You will soon be reading " << m_title << endl;
 
 
 
-    // Will overflow if sleepCount is less than 60
-    // DEBUG
+  // Will overflow if sleepCount is less than 60
+  // DEBUG
 
-    timespec req;
+  timespec req;
 
-    int totalWords = m_words.size();
-    startPlace = startPlace - 20;
-    if ( startPlace < 0)
-        startPlace = 0;
+  int totalWords = m_words.size();
+  startPlace = startPlace - 20;
+  if ( startPlace < 0)
+    startPlace = 0;
+
+  //////////////////////////////////
+  // loop over each word
+  //////////////////////////////////
+
+  for (m_bookmark=startPlace; m_bookmark < totalWords; m_bookmark++)
+  {
+    string word = m_words[m_bookmark];
+    printWord(word, wpm);
+
+    // modulate based on word length
+    int avgLength = 3;
+    double sleepCount = sleepBase;
+    double modulation = 0.03 * (int)(word.size() - avgLength);
+    sleepCount += modulation;
+    char lc;
+    if (word.size() >= 1)
+      lc = word[word.size()-1];
+    else
+      lc = '\0'; // harmless value
+
+    if (lc == '.' || lc == ':' || lc == ';' || lc == '?' || lc == '!')
+      sleepCount += 0.3;
+
+    // store this into timespec struct
+    req.tv_sec = (int) sleepCount;
+    sleepCount -= req.tv_sec; // remove integer part
+    req.tv_nsec = 1000000000 * sleepCount;
+    nanosleep(&req, NULL); // sleep for fraction of a second
+
 
     //////////////////////////////////
-    // loop over each word
+    // Respond to key presses
     //////////////////////////////////
 
-    for (m_bookmark=startPlace; m_bookmark < totalWords; m_bookmark++)
+    if (GetAsyncKeyState(BREAK_KEY-KEY_OFFSET) & 0x8000)
+      break;
+    if (GetAsyncKeyState(INCR_SPD_KEY-KEY_OFFSET) & 0x8000)
     {
-        string word = m_words[m_bookmark];
-        printWord(word, wpm);
+      wpm += 10;
 
-        // modulate based on word length
-        int avgLength = 3;
-        double sleepCount = sleepBase;
-        double modulation = 0.03 * (int)(word.size() - avgLength);
-        sleepCount += modulation;
-        char lc;
-        if (word.size() >= 1)
-            lc = word[word.size()-1];
-        else
-            lc = '\0'; // harmless value
+      // update sleepCount
+      sleepCount = 60.0/wpm * 1000000000; // in nanoseconds
+      req.tv_nsec = sleepCount;
+    }
+    if (GetAsyncKeyState(DECR_SPD_KEY-KEY_OFFSET) & 0x8000)
+    {
+      wpm -= 10;
+      if (wpm <= 0)
+      {
+        wpm = 1; // minimum allowed value
+      }
 
-        if (lc == '.' || lc == ':' || lc == ';' || lc == '?' || lc == '!')
-            sleepCount += 0.3;
-
-        // store this into timespec struct
-        req.tv_sec = (int) sleepCount;
-        sleepCount -= req.tv_sec; // remove integer part
-        req.tv_nsec = 1000000000 * sleepCount;
-        nanosleep(&req, NULL); // sleep for fraction of a second
-
-
-        //////////////////////////////////
-        // Respond to key presses
-        //////////////////////////////////
-
-        if (GetAsyncKeyState(BREAK_KEY-KEY_OFFSET) & 0x8000)
-            break;
-        if (GetAsyncKeyState(INCR_SPD_KEY-KEY_OFFSET) & 0x8000)
-        {
-            wpm += 10;
-
-            // update sleepCount
-            sleepCount = 60.0/wpm * 1000000000; // in nanoseconds
-            req.tv_nsec = sleepCount;
-        }
-        if (GetAsyncKeyState(DECR_SPD_KEY-KEY_OFFSET) & 0x8000)
-        {
-            wpm -= 10;
-            if (wpm <= 0)
-            {
-                wpm = 1; // minimum allowed value
-            }
-
-            // update sleepCount
-            sleepCount = 60.0/wpm * 1000000000; // in nanoseconds
-            req.tv_nsec = sleepCount;
-        }
-
+      // update sleepCount
+      sleepCount = 60.0/wpm * 1000000000; // in nanoseconds
+      req.tv_nsec = sleepCount;
     }
 
+  }
 
-    return 0;
+
+  return 0;
 }

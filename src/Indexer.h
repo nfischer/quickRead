@@ -9,18 +9,18 @@ class Text;
 class Indexer
 {
   public:
-    // Constructors
-    Indexer();
-    Indexer(const std::string loadFile);
+  // Constructors
+  Indexer();
+  Indexer(const std::string loadFile);
 
-    // Destructor
-    ~Indexer();
+  // Destructor
+  ~Indexer();
 
-    // Functions
-    Text* getNext();
-    void add(std::string title, std::string path);
+  // Functions
+  Text* getNext();
+  void add(std::string title, std::string path);
   private:
-    std::vector<Text*> m_Texts;
+  std::vector<Text*> m_Texts;
 };
 
 #endif//INDEXER_INCLUDED

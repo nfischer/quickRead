@@ -1,0 +1,18 @@
+# makefile for quickRead
+
+CFLAGS  := 
+LDFLAGS := 
+SOURCES := main.cpp Text.cpp Indexer.cpp
+OBJECTS :=$(SOURCES:.cpp=.o)
+EXECUTABLE := quickRead
+
+all: $(SOURCES) $(EXECUTABLE)
+
+$(EXECUTABLE): $(OBJECTS)
+	$(CXX) $(CFLAGS) $(OBJECTS) -o $@ $(LDFLAGS)
+
+.cpp.o:
+	$(CXX) $(CFLAGS) -c $< -o $@ $(LDFLAGS)
+
+clean:
+	rm -f *.o $(EXECUTABLE) *.stackdump
